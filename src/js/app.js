@@ -7,6 +7,7 @@ import {
   addTodo,
   toggleTodo,
   deleteTodo,
+  updateTodo,
   toggleStar,
   setNavFilter,
   setCategoryFilter,
@@ -129,8 +130,65 @@ function bindTodoListActions() {
     if (starBtn) {
       toggleStar(starBtn.dataset.id);
       renderAll();
+      return;
+    }
+
+    const editBtn = e.target.closest('[data-action="edit"]');
+    if (editBtn) {
+      activateInlineEdit(editBtn.dataset.id);
     }
   });
+}
+
+function activateInlineEdit(id) {
+  const card = document.querySelector(`.task-card[data-id="${id}"]`);
+  if (!card) return;
+
+  const textSpan = card.querySelector('.task-card__text');
+  if (!textSpan) return;
+
+  const originalText = textSpan.textContent;
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'task-card__edit-input';
+  input.value = originalText;
+  input.setAttribute('aria-label', '태스크 텍스트 수정');
+
+  textSpan.replaceWith(input);
+  input.focus();
+  input.select();
+
+  card.classList.add('task-card--editing');
+
+  let committed = false;
+
+  function commit() {
+    if (committed) return;
+    committed = true;
+    const newText = input.value.trim();
+    if (newText && newText !== originalText) {
+      updateTodo(id, newText);
+    }
+    renderAll();
+  }
+
+  function cancel() {
+    if (committed) return;
+    committed = true;
+    renderAll();
+  }
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.isComposing) {
+      e.preventDefault();
+      commit();
+    } else if (e.key === 'Escape') {
+      cancel();
+    }
+  });
+
+  input.addEventListener('blur', commit);
 }
 
 // ── Sidebar navigation ───────────────────────────────────────
