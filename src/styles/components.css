@@ -664,6 +664,56 @@ ul, ol {
   }
 }
 
+/* Edit button */
+
+.task-card__edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--size-delete-btn);
+  height: var(--size-delete-btn);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-disabled);
+  transition: background-color var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.task-card__edit:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .task-card__edit {
+    opacity: 0;
+  }
+  .task-card:hover .task-card__edit {
+    opacity: 1;
+  }
+}
+
+/* Inline edit input */
+
+.task-card__edit-input {
+  flex: 1;
+  font-size: var(--text-size-body);
+  font-weight: var(--text-weight-medium);
+  color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--color-accent);
+  outline: none;
+  padding: 0 2px;
+  min-width: 0;
+  width: 100%;
+  font-family: inherit;
+}
+
+.task-card--editing .task-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
 /* Completed state */
 
 .task-card--completed .task-card__text {
@@ -1011,6 +1061,10 @@ ul, ol {
   }
 
   .task-card__delete {
+    opacity: 1;
+  }
+
+  .task-card__edit {
     opacity: 1;
   }
 }

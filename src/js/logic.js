@@ -98,6 +98,32 @@ export function deleteCompleted() {
   saveToStorage();
 }
 
+/**
+ * @param {string} id
+ * @param {string} text
+ * @returns {boolean}
+ */
+export function updateTodo(id, text) {
+  const trimmed = text.trim();
+  if (!trimmed) return false;
+
+  const { todos } = getState();
+  let originalText = '';
+  const updated = todos.map((t) => {
+    if (t.id === id) {
+      originalText = t.text;
+      return { ...t, text: trimmed, updatedAt: new Date().toISOString() };
+    }
+    return t;
+  });
+  setState({ todos: updated });
+  if (originalText) {
+    addActivity(`Edited "${originalText}" → "${trimmed}"`, 'info');
+  }
+  saveToStorage();
+  return true;
+}
+
 /** @param {string} id */
 export function toggleStar(id) {
   const { todos } = getState();

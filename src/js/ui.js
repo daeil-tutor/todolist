@@ -26,6 +26,10 @@ const SVG_CLOCK = `<svg class="task-card__time-icon" width="12" height="12" view
   <path d="M6 3v3l2 1" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
 </svg>`;
 
+const SVG_EDIT = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+  <path d="M9.5 1.5l3 3L4 13H1v-3L9.5 1.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>`;
+
 const SVG_PRIORITY_HIGH = `<svg width="4" height="18" viewBox="0 0 4 18" aria-hidden="true">
   <rect width="4" height="18" rx="2" fill="#dc2626"/>
 </svg>`;
@@ -121,6 +125,9 @@ export function createTaskCard(todo, categories) {
     </div>
     <button class="task-card__star${starClass}" type="button" data-action="star" data-id="${todo.id}" aria-label="즐겨찾기">
       ${todo.starred ? SVG_STAR_FILLED : SVG_STAR}
+    </button>
+    <button class="task-card__edit" type="button" data-action="edit" data-id="${todo.id}" aria-label="수정">
+      ${SVG_EDIT}
     </button>
     <button class="task-card__delete" type="button" data-action="delete" data-id="${todo.id}" aria-label="삭제">
       ${SVG_DELETE}
